@@ -1,8 +1,8 @@
 # Robot Frame
 base_frame: base_link           # base frame for the robot
 preferred_planning_frame: map   # preferred frame for path planning
-alternate_planning_frame: map  # alternative frame for path planning
-preferred_driving_frame: map   # preferred frame for path planning
+alternate_planning_frame: odom  # alternative frame for path planning
+preferred_driving_frame: odom   # preferred frame for path planning
 alternate_driving_frame: map    # alternative frame for path planning
 
 # Robot Footprint
