@@ -68,7 +68,7 @@ To run, give the following command:
 
 * **`min_turning_velocity`** (double, default: 0.18, min: 0, max: 1.0)
 
-        Minimum turning velocity on spot.
+			Minimum turning velocity on spot.
 
 * **`max_turning_velocity`** (double, default: 1.0, min: 0, max: 4.0)
 
