@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node pkg="move_basic" type="move_basic" respawn="false" name="move_basic" output="screen">
+    <rosparam file="$(find move_basic)/config/move_basic.config.yaml" command="load"/>
+
+    <!-- <remap from="/cmd_vel" to="/cmd_vel/nav"/> -->
+  </node>
+</launch>
