@@ -1,0 +1,43 @@
+# Robot Frame
+base_frame: base_link           # base frame for the robot
+preferred_planning_frame: map   # preferred frame for path planning
+alternate_planning_frame: map  # alternative frame for path planning
+preferred_driving_frame: map   # preferred frame for path planning
+alternate_driving_frame: map    # alternative frame for path planning
+
+# Robot Footprint
+robot_width: 0.97               # distance from base_link to the side of the robot
+robot_front_length: 0.00        # distance from base_link to the front
+robot_back_length: 1.07         # distance from base_link to the back
+min_side_dist: 0.1              # minimum distance to maintain at each side
+
+# Robot Movement
+min_turning_velocity: 0.2    # min turning on the spot velocity, rads/s
+max_turning_velocity: 0.5    # max turning on the spot velocity, rads/s
+turning_acceleration: 0.2    # rate to ramp for turning velocities
+
+min_linear_velocity: 0.2    # min X velocity, m/s
+max_linear_velocity: 0.5    # max X velocity, m/s
+linear_acceleration: 0.2    # rate to ramp for linear velocities
+
+linear_gain: 0.05            # adds a gain to linear velocity
+rotational_gain: 0.05        # adds a gain to angular velocity
+
+# set values to 0 for robots that cannot strafe
+max_lateral_velocity: 0.0   # max Y velocity, rads/s
+lateral_kp: 0.0             # proportional lateral gain during linear movement 
+lateral_ki: 0.0             # integral lateral gain during linear movement 
+lateral_kd: 0.0             # differential lateral gain during linear movement 
+
+# Robot Goal 
+angular_tolerance: 0.05     # 0.17rads = ~10degs 
+linear_tolerance: 0.1       # max linear tolerance, metres
+localization_latency: 0.1   # pause between each step so localization is accurate, in seconds
+velocity_threshold: 0.2    # minimum linear velocity close to the goal
+
+# Object Avoidance
+runaway_timeout: 0.0                    # lateral velocity multiplier
+abort_timeout: 5.0                      # duration robot can drive away from goal before aborting, in seconds
+obstacle_wait_threshold: 10.0           # wait timer of object in front before timing out
+forward_obstacle_threshold: 1.0         # minimum distance to maintain in front
+reverse_without_turning_threshold: 0.0  # threshold in meters for moving backwards without turning
