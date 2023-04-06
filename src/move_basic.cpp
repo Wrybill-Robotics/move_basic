@@ -224,6 +224,8 @@ MoveBasic::MoveBasic(): tfBuffer(ros::Duration(3.0)),
                           alternateDrivingFrame, "odom");
     nh.param<std::string>("base_frame", baseFrame, "base_footprint");
 
+    nh.param<std::double>("control_rate", control_rate, 10);
+
     stop = false;
 
     dynamic_reconfigure::Server<move_basic::MovebasicConfig>::CallbackType f;
@@ -529,7 +531,7 @@ void MoveBasic::sendCmd(double angular, double linear)
 
 void MoveBasic::run()
 {
-    ros::Rate r(20);
+    ros::Rate r(control_rate);
 
     while (ros::ok()) {
         ros::spinOnce();
@@ -569,7 +571,7 @@ bool MoveBasic::rotate(double yaw, const std::string& drivingFrame)
     double prevAngleRemaining = 0;
 
     bool done = false;
-    ros::Rate r(50);
+    ros::Rate r(control_rate);
 
     while (!done && ros::ok()) {
         ros::spinOnce();
@@ -651,7 +653,7 @@ bool MoveBasic::moveLinear(tf2::Transform& goalInDriving,
     double lateralDiff = 0.0;
 
     bool done = false;
-    ros::Rate r(50);
+    ros::Rate r(control_rate);
 
     while (!done && ros::ok()) {
         ros::spinOnce();
