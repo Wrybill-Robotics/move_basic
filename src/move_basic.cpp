@@ -76,11 +76,12 @@ class MoveBasic {
     double turningAcceleration;
     double angularTolerance;
     double maxLateralVelocity;
-
+    
     double maxLinearVelocity;
     double minLinearVelocity;
     double linearAcceleration;
     double linearTolerance;
+    bool final_rot;
 
     double lateralKp;
     double lateralKi;
@@ -193,7 +194,7 @@ MoveBasic::MoveBasic(): tfBuffer(ros::Duration(3.0)),
     // Within tolerance, goal is successfully reached
     nh.param<double>("angular_tolerance", angularTolerance, 0.05);
     nh.param<double>("linear_tolerance", linearTolerance, 0.05);
-
+    nh.param<bool>("final_rotation", final_rot,true);
     // PID parameters for lateral control
     nh.param<double>("lateral_kp", lateralKp, 0.0);
     nh.param<double>("lateral_ki", lateralKi, 0.0);
@@ -492,7 +493,7 @@ void MoveBasic::executeAction(const move_base_msgs::MoveBaseGoalConstPtr& msg)
     }
 
     // Final rotation as specified in goal
-    if (do_final_rotation) {
+    if (do_final_rotation && final_rot) {
         double requestedYaw = atan2(linear.y(), linear.x());
         double finalYaw = goalYaw - (yaw + requestedYaw);
         if (std::abs(finalYaw) > angularTolerance) {
