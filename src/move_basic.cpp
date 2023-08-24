@@ -91,6 +91,7 @@ class MoveBasic {
     double forwardObstacleThreshold;
     double minSideDist;
     double localizationLatency;
+    double nav_rate;
     double runawayTimeoutSecs;
     bool stop;
 
@@ -202,7 +203,7 @@ MoveBasic::MoveBasic(): tfBuffer(ros::Duration(3.0)),
 
     // how long to wait after moving to be sure localization is accurate
     nh.param<double>("localization_latency", localizationLatency, 0.5);
-
+    nh.param<double>("navigation_rate",nav_rate,5.0);
     // how long robot can be driving away from the goal
     nh.param<double>("runaway_timeout", runawayTimeoutSecs, 1.0);
 
@@ -530,7 +531,7 @@ void MoveBasic::sendCmd(double angular, double linear)
 
 void MoveBasic::run()
 {
-    ros::Rate r(20);
+    ros::Rate r(nav_rate);
 
     while (ros::ok()) {
         ros::spinOnce();
@@ -570,7 +571,7 @@ bool MoveBasic::rotate(double yaw, const std::string& drivingFrame)
     double prevAngleRemaining = 0;
 
     bool done = false;
-    ros::Rate r(50);
+    ros::Rate r(nav_rate);
 
     while (!done && ros::ok()) {
         ros::spinOnce();
@@ -652,7 +653,7 @@ bool MoveBasic::moveLinear(tf2::Transform& goalInDriving,
     double lateralDiff = 0.0;
 
     bool done = false;
-    ros::Rate r(50);
+    ros::Rate r(nav_rate);
 
     while (!done && ros::ok()) {
         ros::spinOnce();
