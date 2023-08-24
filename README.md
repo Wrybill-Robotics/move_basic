@@ -102,6 +102,10 @@ To run, give the following command:
 
 	Within linear tolerance, linear error is negligible.
 
+* **`final_rotation`** (bool, default: true)
+
+	Attempt final rotation when reached x,y of goal
+
 * **`lateral_kp`** (double, default: 0, min: 0, max: 100)
 
         Proportional coefficient for lateral error correction.
