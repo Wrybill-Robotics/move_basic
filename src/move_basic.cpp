@@ -90,7 +90,8 @@ class MoveBasic {
     double obstacleWaitThreshold;
     double forwardObstacleThreshold;
     double minSideDist;
-    double localizationLatency;
+    double localizationLatencyRot;
+    double localizationLatencyLin;
     double nav_rate;
     double runawayTimeoutSecs;
     bool stop;
@@ -202,7 +203,9 @@ MoveBasic::MoveBasic(): tfBuffer(ros::Duration(3.0)),
     nh.param<double>("lateral_kd", lateralKd, 3.0);
 
     // how long to wait after moving to be sure localization is accurate
-    nh.param<double>("localization_latency", localizationLatency, 0.5);
+    nh.param<double>("localization_latency_rotation", localizationLatencyRot, 0.5);
+    nh.param<double>("localization_latency_linear", localizationLatencyLin, 0.5);
+
     nh.param<double>("navigation_rate",nav_rate,5.0);
     // how long robot can be driving away from the goal
     nh.param<double>("runaway_timeout", runawayTimeoutSecs, 1.0);
@@ -309,7 +312,9 @@ void MoveBasic::dynamicReconfigCallback(move_basic::MovebasicConfig& config, uin
     lateralKi = config.lateral_ki;
     lateralKd = config.lateral_kd;
 
-    localizationLatency = config.localization_latency;
+    localizationLatencyRot = config.localization_latency_rotation;
+    localizationLatencyLin = config.localization_latency_linear;
+
     runawayTimeoutSecs = config.runaway_timeout;
 
     minSideDist = config.min_side_dist;
@@ -484,13 +489,13 @@ void MoveBasic::executeAction(const move_base_msgs::MoveBaseGoalConstPtr& msg)
                 return;
             }
         }
-        sleep(localizationLatency);
+        sleep(localizationLatencyRot);
 
         // Do linear portion of the goal
         if (!moveLinear(goalInDriving, drivingFrame, goalInPlanning, planningFrame)) {
             return;
         }
-        sleep(localizationLatency);
+        sleep(localizationLatencyLin);
     }
 
     // Final rotation as specified in goal
@@ -503,7 +508,7 @@ void MoveBasic::executeAction(const move_base_msgs::MoveBaseGoalConstPtr& msg)
 	    }
         }
 
-        sleep(localizationLatency);
+        sleep(localizationLatencyRot);
     }
 
     ROS_INFO("Goal reached!");

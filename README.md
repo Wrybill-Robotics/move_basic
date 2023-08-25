@@ -110,10 +110,14 @@ To run, give the following command:
 
 	loop rate to navigate with (relates to frequency of cmd_vel)
 	
-* **`localization_latency`** (double, default: 0.5)
+* **`localization_latency_rotation`** (double, default: 0.5)
 
-	time to wait between each movement to allow for localization to catch up
-	
+	time to wait between rotation movement to allow for localization to catch up
+
+* **`localization_latency_linear`** (double, default: 0.5)
+
+	time to wait between linear movement to allow for localization to catch up
+
 * **`lateral_kp`** (double, default: 0, min: 0, max: 100)
 
         Proportional coefficient for lateral error correction.
