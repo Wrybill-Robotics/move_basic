@@ -219,6 +219,9 @@ MoveBasic::MoveBasic(): tfBuffer(ros::Duration(3.0)),
     // Minimum distance to maintain at each side
     nh.param<double>("min_side_dist", minSideDist, 0.3);
 
+    //max distance from plan before aborting
+    nh.param<double>("max_lateral_error", max_lateral_error,0.5);
+
     nh.param<std::string>("preferred_planning_frame",
                           preferredPlanningFrame, "");
     nh.param<std::string>("alternate_planning_frame",
@@ -693,6 +696,12 @@ bool MoveBasic::moveLinear(tf2::Transform& goalInDriving,
         // PID lateral control to keep robot on path
         double rotation = 0.0;
         lateralError = remaining.y();
+
+        //check if lateral error > max aloud
+        if lateralError >= max_lateral_error{
+            abortGoal("MoveBasic: Aborting Due to Lateral error too great");
+            return false;
+        }
         lateralDiff = lateralError - prevLateralError;
         prevLateralError = lateralError;
         lateralIntegral += lateralError;
