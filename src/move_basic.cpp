@@ -81,6 +81,7 @@ class MoveBasic {
     double minLinearVelocity;
     double linearAcceleration;
     double linearTolerance;
+    double max_lateral_error;
     bool final_rot;
 
     double lateralKp;
@@ -698,7 +699,8 @@ bool MoveBasic::moveLinear(tf2::Transform& goalInDriving,
         lateralError = remaining.y();
 
         //check if lateral error > max aloud
-        if lateralError >= max_lateral_error{
+        if (lateralError >= max_lateral_error)
+        {
             abortGoal("MoveBasic: Aborting Due to Lateral error too great");
             return false;
         }
