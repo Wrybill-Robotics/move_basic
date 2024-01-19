@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="move_basic_node" pkg="move_basic" type="move_basic" output="screen" respawn="true"/>
+</launch>
